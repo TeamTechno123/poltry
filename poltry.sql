@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2020 at 01:22 PM
+-- Generation Time: Feb 12, 2020 at 05:16 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -61,13 +61,30 @@ CREATE TABLE `advertisement` (
   `advertisement_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `advertisement`
+-- Table structure for table `app_user`
 --
 
-INSERT INTO `advertisement` (`advertisement_id`, `company_id`, `advertisement_name`, `advertisement_details`, `advertisement_logo`, `advertisement_sdate`, `advertisement_edate`, `advertisement_status`, `advertisement_addedby`, `advertisement_date`) VALUES
-(4, 1, 'banner 3', 'banner image 3', 'advertise_information_4_1579153353.jpg', '02-01-2020', '16-01-2020', 'active', '1', '2020-01-16 05:42:33'),
-(5, 1, 'banner', 'abcds', 'product_5_1579148220.jpg', '01-01-2020', '16-01-2020', 'active', '1', '2020-01-16 04:17:00');
+CREATE TABLE `app_user` (
+  `app_user_id` bigint(20) NOT NULL,
+  `company_id` bigint(20) NOT NULL,
+  `roll_id` int(11) NOT NULL DEFAULT 2,
+  `app_user_name` varchar(250) NOT NULL,
+  `app_user_lastname` varchar(100) NOT NULL,
+  `app_user_dob` varchar(250) NOT NULL,
+  `app_user_gender` varchar(250) NOT NULL,
+  `app_user_city` varchar(150) NOT NULL,
+  `app_user_email` varchar(250) NOT NULL,
+  `app_user_mobile` varchar(12) NOT NULL,
+  `app_user_password` varchar(100) NOT NULL,
+  `app_user_otp` varchar(10) DEFAULT NULL,
+  `app_user_status` varchar(20) NOT NULL DEFAULT 'inactive',
+  `app_user_addedby` varchar(100) NOT NULL,
+  `app_user_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `is_admin` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -86,15 +103,6 @@ CREATE TABLE `blog` (
   `blog_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `blog`
---
-
-INSERT INTO `blog` (`blog_id`, `company_id`, `blog_category_id`, `blog_info_name`, `blog_details`, `blog_status`, `blog_addedby`, `blog_date`) VALUES
-(4, 1, 1, 'datta', '        <u><span style=\"font-weight: bold; color: rgb(255, 0, 0);\" arial=\"\" black\";=\"\" color:=\"\" rgb(57,=\"\" 132,=\"\" 198);\"=\"\">datta Mane</span></u>', 'Public', '1', '2020-01-17 11:45:09'),
-(5, 1, 1, 'nikhil', '        <u><span style=\"font-weight: bold; color: rgb(255, 0, 0);\" arial=\"\" black\";=\"\" color:=\"\" rgb(57,=\"\" 132,=\"\" 198);\"=\"\">Nikhil Kamble</span></u>', 'Public', '1', '2020-01-17 11:51:00'),
-(6, 1, 1, 'dhananjay', '  dhananjay sawant ', 'Public', '1', '2020-01-17 11:59:44');
-
 -- --------------------------------------------------------
 
 --
@@ -105,13 +113,6 @@ CREATE TABLE `blog_category` (
   `blog_category_id` int(12) NOT NULL,
   `blog_category_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `blog_category`
---
-
-INSERT INTO `blog_category` (`blog_category_id`, `blog_category_name`) VALUES
-(1, 'Goverment Scheme');
 
 -- --------------------------------------------------------
 
@@ -137,14 +138,6 @@ CREATE TABLE `business` (
   `business_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `business`
---
-
-INSERT INTO `business` (`business_id`, `company_id`, `business_category_id`, `business_name`, `business_address`, `business_mobile1`, `business_mobile2`, `business_logo`, `business_email`, `business_website`, `working_hours`, `working_days`, `business_status`, `business_addedby`, `business_date`) VALUES
-(12, 1, 6, 'Satyam Plywood', 'kagal', '9876543210', '1234567890', 'product_12_1579173055.png', 'dhananjay@mail.com', 'www.dhananjay.com', '20 hours', '20', 'active', '1', '2020-01-17 12:08:14'),
-(13, 1, 9, 'Satyam Plywood 2', 'kolhapur', '123456789121', '12345678956', '', 'abc@mail.com', 'www.demo.com', '15 hours', '18', 'active', '1', '2020-01-16 11:35:43');
-
 -- --------------------------------------------------------
 
 --
@@ -159,15 +152,6 @@ CREATE TABLE `business_category` (
   `business_category_addedby` varchar(150) NOT NULL,
   `business_category_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `business_category`
---
-
-INSERT INTO `business_category` (`business_category_id`, `company_id`, `business_category_name`, `business_category_status`, `business_category_addedby`, `business_category_date`) VALUES
-(6, 1, 'Business', 'active', '1', '2020-01-12 07:30:04'),
-(8, 1, 'Business b', 'active', '1', '2020-01-16 07:10:37'),
-(9, 1, 'Business c', 'active', '1', '2020-01-16 07:10:42');
 
 -- --------------------------------------------------------
 
@@ -184,15 +168,6 @@ CREATE TABLE `business_trans` (
   `business_trans_addedby` varchar(150) NOT NULL,
   `business_trans_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `business_trans`
---
-
-INSERT INTO `business_trans` (`business_trans_id`, `business_id`, `business_type`, `product_category_id`, `product_id`, `business_trans_addedby`, `business_trans_date`) VALUES
-(9, 12, 'Product', 6, 11, '', '2020-01-16 11:12:55'),
-(10, 12, 'Service', 7, 12, '', '2020-01-17 12:08:14'),
-(11, 13, 'Product', 6, 11, '', '2020-01-16 11:35:28');
 
 -- --------------------------------------------------------
 
@@ -229,7 +204,25 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`company_id`, `company_name`, `company_address`, `company_city`, `company_state`, `company_district`, `company_statecode`, `company_pincode`, `company_mob1`, `company_mob2`, `company_email`, `company_website`, `company_pan_no`, `company_gst_no`, `company_lic1`, `company_lic2`, `company_start_date`, `company_end_date`, `company_logo`, `company_seal`, `date`) VALUES
-(1, 'Poltry Demo', 'fghfgh dfgh', 'Kolhapur', 'Maharashtra', 'Kolhaput', 0, '111222', '9876543210', '9998887770', 'demo@email.com', 'www.ppp.com', '111', '222', '333', '444', '01-01-2019', '01-01-2021', '', '', '2020-01-08 10:44:07');
+(1, 'Poltry Demo', 'kkkk', 'Kolhapur', 'Maharashtra', 'Kolhaput', 0, '111222', '9876543210', '9998887770', 'demo@email.com', 'www.ppp.com', '111', '222', '333', '444', '01-01-2019', '01-01-2021', '', '', '2020-01-29 11:43:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post`
+--
+
+CREATE TABLE `post` (
+  `post_id` bigint(20) NOT NULL,
+  `company_id` bigint(20) NOT NULL,
+  `app_user_id` bigint(20) NOT NULL,
+  `post_name` varchar(250) NOT NULL,
+  `post_category` varchar(250) NOT NULL,
+  `post_comments` text NOT NULL,
+  `post_status` varchar(20) NOT NULL DEFAULT 'active',
+  `app_user_addedby` varchar(100) DEFAULT NULL,
+  `app_user_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -249,16 +242,6 @@ CREATE TABLE `product` (
   `product_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`product_id`, `company_id`, `product_type`, `product_category`, `product_name`, `product_logo`, `product_status`, `product_addedby`, `product_date`) VALUES
-(11, 1, 'Product', 6, 'Product 1', 'product_11_1579085029.jpg', 'active', '1', '2020-01-16 07:46:09'),
-(12, 1, 'Service', 7, 'service 3', 'product_12_1579160086.png', 'active', '1', '2020-01-16 11:51:58'),
-(13, 1, 'Service', 7, 'Shell Morlina S1 B 101', 'product_13_1579175018.png', 'active', '1', '2020-01-17 12:06:44'),
-(14, 1, 'Product', 6, 'Shell Lubricunts', 'product_14_1579263151.png', 'active', '1', '2020-01-17 12:12:31');
-
 -- --------------------------------------------------------
 
 --
@@ -276,13 +259,39 @@ CREATE TABLE `product_category` (
   `product_category_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `product_category`
+-- Table structure for table `question`
 --
 
-INSERT INTO `product_category` (`product_category_id`, `company_id`, `product_category_type`, `product_category_name`, `product_category_logo`, `product_category_status`, `product_category_addedby`, `product_category_date`) VALUES
-(6, 1, 'Product', 'product 2', 'product_category_6_1579089265.jpg', 'active', '1', '2020-01-15 11:54:25'),
-(7, 1, 'Service', 'Service 2', 'product_7_1579159782.png', 'active', '1', '2020-01-16 07:29:42');
+CREATE TABLE `question` (
+  `question_id` bigint(20) NOT NULL,
+  `company_id` bigint(20) NOT NULL,
+  `app_user_id` bigint(20) NOT NULL,
+  `question_name` varchar(250) NOT NULL,
+  `question_category` varchar(250) NOT NULL,
+  `question_status` varchar(20) NOT NULL DEFAULT 'inactive',
+  `app_user_addedby` varchar(100) DEFAULT NULL,
+  `app_user_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `support`
+--
+
+CREATE TABLE `support` (
+  `support_id` bigint(20) NOT NULL,
+  `company_id` bigint(20) NOT NULL,
+  `app_user_id` bigint(20) NOT NULL,
+  `support_query` varchar(250) NOT NULL,
+  `support_reply` text NOT NULL,
+  `support_status` varchar(20) NOT NULL DEFAULT 'active',
+  `app_user_addedby` varchar(100) DEFAULT NULL,
+  `app_user_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -313,9 +322,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `company_id`, `branch_id`, `roll_id`, `user_name`, `user_lastname`, `user_city`, `user_email`, `user_mobile`, `user_password`, `user_otp`, `user_status`, `user_addedby`, `user_date`, `is_admin`) VALUES
-(1, 1, '', 1, 'Admin', '', 'Kolhapur', 'demo@email.com', '9876543210', '123456', NULL, 'active', 'Admin', '2020-01-08 09:55:02', 1),
-(6, 1, '', 2, 'Datta Mane', '', 'Kop', '', '9673454383', '123456', NULL, 'active', '1', '2020-01-08 12:39:59', 0),
-(7, 1, '', 2, 'vaibhav Patil', '', 'Kolhapur', '', '9876543211', '123456', NULL, 'active', '1', '2020-01-12 06:22:22', 0);
+(1, 1, '', 1, 'Admin', '', 'Kolhapur', 'demo@email.com', '9876543210', '123456', NULL, 'active', 'Admin', '2020-01-08 09:55:02', 1);
 
 --
 -- Indexes for dumped tables
@@ -332,6 +339,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `advertisement`
   ADD PRIMARY KEY (`advertisement_id`);
+
+--
+-- Indexes for table `app_user`
+--
+ALTER TABLE `app_user`
+  ADD PRIMARY KEY (`app_user_id`);
 
 --
 -- Indexes for table `blog`
@@ -370,6 +383,12 @@ ALTER TABLE `company`
   ADD PRIMARY KEY (`company_id`);
 
 --
+-- Indexes for table `post`
+--
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`post_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -380,6 +399,18 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_category`
   ADD PRIMARY KEY (`product_category_id`);
+
+--
+-- Indexes for table `question`
+--
+ALTER TABLE `question`
+  ADD PRIMARY KEY (`question_id`);
+
+--
+-- Indexes for table `support`
+--
+ALTER TABLE `support`
+  ADD PRIMARY KEY (`support_id`);
 
 --
 -- Indexes for table `user`
@@ -404,10 +435,16 @@ ALTER TABLE `advertisement`
   MODIFY `advertisement_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `app_user`
+--
+ALTER TABLE `app_user`
+  MODIFY `app_user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `blog`
 --
 ALTER TABLE `blog`
-  MODIFY `blog_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `blog_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `blog_category`
@@ -440,6 +477,12 @@ ALTER TABLE `company`
   MODIFY `company_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `post`
+--
+ALTER TABLE `post`
+  MODIFY `post_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
@@ -450,6 +493,18 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_category`
   MODIFY `product_category_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `question`
+--
+ALTER TABLE `question`
+  MODIFY `question_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `support`
+--
+ALTER TABLE `support`
+  MODIFY `support_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user`

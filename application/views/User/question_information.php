@@ -48,19 +48,26 @@
                   <th>City </th>
                   <th>Category Of Question</th>
                   <th>Question Name</th>
+                  <th>Approve</th>
                   <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Demo User</td>
-                    <td>9876543210</td>
-                    <td>Kolhapur</td>
-                    <td>abcd</td>
-                    <td>demo</td>                    
-                    <td>Active</td>
-                  </tr>
+                  <?php $i = 0;
+                   foreach ($question_list as $question_list) {
+                     $i++; ?>
+                   <tr>
+                     <td><?php echo $i; ?></td>
+                     <td><?php echo $question_list->app_user_name; ?></td>
+                     <td><?php echo $question_list->app_user_mobile; ?></td>
+                     <td><?php echo $question_list->app_user_city; ?></td>
+                     <td><?php echo $question_list->question_category; ?></td>
+                     <td><?php echo $question_list->question_name; ?></td>
+                     <td><button class="btn btn-outline-info btn_open_modal" question_id="<?php echo $question_list->question_id; ?>" question_status="<?php echo $question_list->question_status; ?>"  data-toggle="modal" data-target="#exampleModal">
+                     Approve</button></td>
+                      <td><?php echo $question_list->question_status; ?></td>
+                   </tr>
+                     <?php } ?>
                 </tbody>
               </table>
             </div>
@@ -73,6 +80,84 @@
       </div><!-- /.container-fluid -->
     </section>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Reply</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="" action="" method="post">
+              <input type="hidden"  id="question_id" name="question_id">
+                <input type="hidden"  id="question_status" name="question_status">
+
+                <div class="row">
+                <div class="form-group col-md-2  col-4 mb-0">
+                  <label for="">Status : </label>
+                </div>
+                <div class="form-group col-md-2 col-4 mb-0">
+                  <div class="form-check">
+                    <input class="form-check-input" id="active"  value="active"  type="radio" name="question_status">
+                    Active
+                  </div>
+                </div>
+                <div class="form-group col-md-2 col-4 mb-0">
+                  <div class="form-check">
+                    <input class="form-check-input" id="inactive" value="inactive"  type="radio" name="question_status">
+                    Inactive
+                  </div>
+                </div>
+              </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="btn_msg_send" data-dismiss="modal" class="btn btn-primary">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="<?php echo base_url(); ?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+      <script src="<?php echo base_url(); ?>assets/plugins/toastr/toastr.min.js"></script>
+  <script type="text/javascript">
+    $('.btn_open_modal').on('click',function(){
+      var question_id = $(this).attr('question_id');
+      var question_status = $(this).attr('question_status');
+      var question_reply = $(this).attr('question_reply');
+        $('#reply').val(question_reply);
+      $('#question_id').val(question_id);
+      if(question_status=='active'){
+        $("#active").prop("checked", true);
+      } else{
+          $("#inactive").prop("checked", true);
+      }
+
+    });
+
+    $('#btn_msg_send').on('click',function(){
+      var question_id = $('#question_id').val();
+      var question_status=  $("input[name='question_status']:checked"). val();
+        $.ajax({
+          url:'<?php echo base_url(); ?>Transactional/change_question_status',
+          method:'post',
+          data:{
+                'question_id':question_id,
+                'question_status':question_status
+              },
+          success:function(result){
+              toastr.success('Message Sent successfully');
+              window.location.replace("<?php echo base_url(); ?>Transactional/question_information");
+          }
+        });
+
+    });
+  </script>
 
 </body>
 </html>
